@@ -1,0 +1,983 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Azersoy Kebap — Çiftlikköy, Yalova</title>
+  <meta name="description" content="Azersoy Kebap — Çiftlikköy Yalova'nın en köklü kebap restoranı. Rezervasyon: 0533 650 02 51" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;0,900;1,600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+/* =========================================================
+   TOKENS & RESET
+========================================================= */
+:root{
+  --red:#B80F1A; --red-h:#d41221;
+  --bg0:#0a0a0a; --bg1:#111111; --bg2:#171717; --bg3:#1c1c1c; --bg4:#222222;
+  --border:rgba(255,255,255,0.07);
+  --cream:#f0ebe4; --muted:rgba(240,235,228,0.52);
+  --r:12px;
+  --shadow:0 4px 24px rgba(0,0,0,.45);
+  --shadow-l:0 12px 48px rgba(0,0,0,.6);
+  --ease:cubic-bezier(.4,0,.2,1);
+  --ease-out:cubic-bezier(0,0,.2,1);
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;font-size:16px;}
+body{background:var(--bg1);color:var(--cream);font-family:'Inter',sans-serif;overflow-x:hidden;line-height:1.6;}
+img{display:block;max-width:100%;}
+a{text-decoration:none;color:inherit;}
+button{font-family:inherit;cursor:pointer;border:none;background:none;}
+::-webkit-scrollbar{width:3px;}
+::-webkit-scrollbar-track{background:var(--bg0);}
+::-webkit-scrollbar-thumb{background:var(--red);border-radius:2px;}
+
+/* =========================================================
+   PAGE LOADER
+========================================================= */
+#loader{
+  position:fixed;inset:0;z-index:9999;
+  background:var(--bg0);
+  display:flex;align-items:center;justify-content:center;
+  flex-direction:column;gap:20px;
+  transition:opacity .6s var(--ease), visibility .6s;
+}
+#loader.hide{opacity:0;visibility:hidden;}
+.loader-logo{
+  font-family:'Playfair Display',serif;font-weight:900;
+  font-size:36px;letter-spacing:.08em;color:#fff;
+  animation:loaderPulse 1.4s ease-in-out infinite;
+}
+.loader-logo span{color:var(--red);}
+.loader-bar{
+  width:120px;height:2px;background:rgba(255,255,255,.1);border-radius:2px;overflow:hidden;
+}
+.loader-bar-inner{
+  height:100%;width:0;background:var(--red);border-radius:2px;
+  animation:loaderFill 1.8s var(--ease) forwards;
+}
+@keyframes loaderPulse{0%,100%{opacity:.6}50%{opacity:1;}}
+@keyframes loaderFill{to{width:100%;}}
+
+/* =========================================================
+   TOP BAR
+========================================================= */
+.topbar{
+  background:var(--bg0);border-bottom:1px solid var(--border);
+  padding:9px 32px;display:flex;align-items:center;
+  justify-content:space-between;flex-wrap:wrap;gap:6px;
+  font-size:12px;color:rgba(240,235,228,.44);
+}
+.topbar-left{display:flex;align-items:center;gap:22px;flex-wrap:wrap;}
+.tb-item{display:flex;align-items:center;gap:6px;}
+.tb-item svg{width:13px;height:13px;flex-shrink:0;opacity:.65;}
+.tb-item a{color:rgba(240,235,228,.54);transition:color .25s;}
+.tb-item a:hover{color:var(--cream);}
+.topbar-right{font-size:11px;color:var(--red);font-weight:500;letter-spacing:.04em;}
+
+/* =========================================================
+   NAVBAR
+========================================================= */
+.navbar{
+  position:sticky;top:0;z-index:200;height:64px;
+  background:rgba(17,17,17,0.96);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+  border-bottom:1px solid var(--border);padding:0 32px;
+  display:flex;align-items:center;justify-content:space-between;
+  transition:box-shadow .3s var(--ease);
+}
+.navbar.shadow{box-shadow:0 4px 32px rgba(0,0,0,.6);}
+
+.nav-logo{display:flex;flex-direction:column;line-height:1;cursor:pointer;user-select:none;}
+.nav-logo-top{font-family:'Playfair Display',serif;font-weight:900;font-size:20px;color:#fff;letter-spacing:.06em;}
+.nav-logo-bot{font-family:'Playfair Display',serif;font-weight:700;font-size:11px;color:var(--red);letter-spacing:.3em;text-transform:uppercase;}
+
+.nav-links{display:flex;align-items:center;gap:32px;list-style:none;}
+.nav-links a{
+  font-size:13.5px;font-weight:400;color:rgba(240,235,228,.54);
+  position:relative;cursor:pointer;transition:color .25s;letter-spacing:.01em;
+}
+.nav-links a::after{
+  content:'';position:absolute;bottom:-3px;left:0;width:0;height:1px;
+  background:var(--red);transition:width .25s var(--ease);
+}
+.nav-links a:hover{color:var(--cream);}
+.nav-links a:hover::after{width:100%;}
+
+.nav-ctas{display:flex;align-items:center;gap:10px;}
+.btn-outline-sm{
+  display:inline-flex;align-items:center;gap:7px;
+  border:1px solid rgba(255,255,255,.14);color:rgba(240,235,228,.7);
+  font-size:13px;padding:8px 18px;border-radius:100px;transition:all .25s var(--ease);
+}
+.btn-outline-sm:hover{border-color:rgba(255,255,255,.4);color:var(--cream);}
+.btn-red-sm{
+  display:inline-flex;align-items:center;gap:7px;
+  background:var(--red);color:#fff;font-size:13px;font-weight:500;
+  padding:9px 20px;border-radius:100px;transition:all .25s var(--ease);
+}
+.btn-red-sm:hover{background:var(--red-h);transform:scale(1.04);}
+.btn-red-sm svg,.btn-outline-sm svg{width:15px;height:15px;fill:currentColor;flex-shrink:0;}
+
+.hamburger{display:none;flex-direction:column;gap:5px;padding:4px;cursor:pointer;}
+.hamburger span{display:block;width:22px;height:2px;background:var(--cream);border-radius:2px;transition:all .3s var(--ease);}
+.hamburger.open span:nth-child(1){transform:rotate(45deg) translate(5px,5px);}
+.hamburger.open span:nth-child(2){opacity:0;}
+.hamburger.open span:nth-child(3){transform:rotate(-45deg) translate(5px,-5px);}
+
+.mobile-overlay{
+  display:none;position:fixed;inset:0;z-index:190;
+  background:rgba(8,8,8,.98);backdrop-filter:blur(20px);
+  flex-direction:column;align-items:center;justify-content:center;gap:28px;
+}
+.mobile-overlay.open{display:flex;}
+.mobile-overlay a{
+  font-family:'Playfair Display',serif;font-size:30px;font-weight:700;
+  color:rgba(240,235,228,.7);cursor:pointer;transition:color .2s;
+}
+.mobile-overlay a:hover{color:var(--cream);}
+.mob-close{
+  position:absolute;top:20px;right:28px;font-size:26px;
+  color:rgba(240,235,228,.4);cursor:pointer;background:none;border:none;transition:color .2s;
+}
+.mob-close:hover{color:var(--cream);}
+.mob-ctas{display:flex;flex-direction:column;gap:12px;width:100%;max-width:280px;margin-top:8px;}
+.mob-btn{
+  display:flex;align-items:center;justify-content:center;
+  gap:8px;font-size:15px;font-weight:500;padding:14px 20px;border-radius:100px;
+}
+.mob-btn-call{border:1px solid rgba(255,255,255,.18);color:var(--cream);}
+.mob-btn-wa{background:var(--red);color:#fff;}
+
+/* =========================================================
+   HERO
+========================================================= */
+.hero{
+  position:relative;min-height:100vh;
+  display:flex;align-items:center;justify-content:center;overflow:hidden;
+}
+.hero-bg{position:absolute;inset:0;z-index:0;}
+.hero-bg img{
+  width:100%;height:100%;object-fit:cover;
+  filter:brightness(.28) saturate(.9);
+  transform:scale(1.04);
+  transition:transform 8s var(--ease);
+}
+.hero-bg.loaded img{transform:scale(1);}
+.hero-bg::after{
+  content:'';position:absolute;inset:0;
+  background:
+    linear-gradient(to bottom, rgba(11,11,11,.6) 0%, rgba(11,11,11,.1) 40%, rgba(11,11,11,.92) 100%),
+    linear-gradient(to right,  rgba(11,11,11,.55) 0%, transparent 55%);
+}
+
+.hero-content{position:relative;z-index:2;max-width:820px;padding:0 32px;}
+
+.hero-title{
+  font-family:'Playfair Display',serif;font-weight:900;
+  line-height:.92;margin-bottom:22px;
+}
+.hero-title .line1{
+  display:block;color:#fff;font-size:clamp(68px,12vw,148px);
+  opacity:0;transform:translateY(48px);
+  animation:heroUp 1s .2s var(--ease-out) forwards;
+}
+.hero-title .line2{
+  display:block;color:var(--red);font-size:clamp(68px,12vw,148px);
+  opacity:0;transform:translateY(48px);
+  animation:heroUp 1s .38s var(--ease-out) forwards;
+}
+
+.hero-sub{
+  font-family:'Playfair Display',serif;font-style:italic;
+  font-size:clamp(17px,2vw,23px);color:rgba(240,235,228,.6);
+  margin-bottom:44px;
+  opacity:0;transform:translateY(28px);
+  animation:heroUp .8s .6s var(--ease-out) forwards;
+}
+.hero-btns{
+  display:flex;gap:14px;flex-wrap:wrap;
+  opacity:0;transform:translateY(24px);
+  animation:heroUp .7s .8s var(--ease-out) forwards;
+}
+
+.hero-cue{
+  position:absolute;bottom:36px;left:50%;transform:translateX(-50%);
+  display:flex;flex-direction:column;align-items:center;gap:8px;
+  opacity:0;animation:fadeIn 1s 2s ease forwards;
+}
+.hero-cue span{font-size:10px;letter-spacing:.3em;text-transform:uppercase;color:rgba(255,255,255,.28);}
+.hero-cue-line{width:1px;height:44px;background:linear-gradient(to bottom,rgba(255,255,255,.28),transparent);animation:cueAnim 1.6s ease-in-out infinite;}
+
+/* =========================================================
+   BUTTONS
+========================================================= */
+.btn-primary{
+  display:inline-flex;align-items:center;gap:9px;
+  background:var(--red);color:#fff;font-size:14px;font-weight:500;
+  padding:14px 30px;border-radius:100px;transition:all .28s var(--ease);
+}
+.btn-primary:hover{background:var(--red-h);transform:scale(1.04);}
+.btn-primary .arr{transition:transform .2s;}
+.btn-primary:hover .arr{transform:translateX(4px);}
+
+.btn-secondary{
+  display:inline-flex;align-items:center;gap:9px;
+  border:1px solid rgba(255,255,255,.2);color:#fff;
+  font-size:14px;font-weight:400;padding:14px 30px;border-radius:100px;
+  backdrop-filter:blur(6px);transition:all .28s var(--ease);
+}
+.btn-secondary:hover{border-color:rgba(255,255,255,.55);transform:scale(1.03);}
+
+.btn-solid{
+  display:inline-flex;align-items:center;gap:8px;
+  background:var(--red);color:#fff;font-size:13.5px;font-weight:500;
+  padding:12px 26px;border-radius:100px;transition:all .25s var(--ease);
+}
+.btn-solid:hover{background:var(--red-h);transform:scale(1.04);}
+.btn-solid .arr{transition:transform .2s;}
+.btn-solid:hover .arr{transform:translateX(4px);}
+
+.btn-ghost{
+  display:inline-flex;align-items:center;gap:8px;
+  border:1px solid rgba(255,255,255,.15);color:rgba(240,235,228,.7);
+  font-size:13.5px;padding:12px 26px;border-radius:100px;transition:all .25s var(--ease);
+}
+.btn-ghost:hover{border-color:rgba(255,255,255,.4);color:var(--cream);}
+
+/* =========================================================
+   LAYOUT
+========================================================= */
+.container{max-width:1240px;margin:0 auto;padding:0 32px;}
+.section{padding:112px 0;}
+
+.sec-label{display:flex;align-items:center;gap:12px;margin-bottom:16px;}
+.sec-label .bar{width:28px;height:1px;background:var(--red);}
+.sec-label span{font-size:11px;font-weight:500;letter-spacing:.3em;text-transform:uppercase;color:var(--red);}
+.sec-title{font-family:'Playfair Display',serif;font-weight:700;line-height:1.18;color:#fff;font-size:clamp(30px,3.8vw,50px);}
+.sec-title em{font-style:italic;color:var(--red);}
+
+/* =========================================================
+   SCROLL REVEAL
+========================================================= */
+.reveal{opacity:0;transform:translateY(32px);transition:opacity .8s var(--ease-out),transform .8s var(--ease-out);}
+.reveal.in{opacity:1;transform:translateY(0);}
+.reveal-left{opacity:0;transform:translateX(-36px);transition:opacity .8s var(--ease-out),transform .8s var(--ease-out);}
+.reveal-left.in{opacity:1;transform:translateX(0);}
+.reveal-right{opacity:0;transform:translateX(36px);transition:opacity .8s var(--ease-out),transform .8s var(--ease-out);}
+.reveal-right.in{opacity:1;transform:translateX(0);}
+.delay-1{transition-delay:.1s;}
+.delay-2{transition-delay:.2s;}
+.delay-3{transition-delay:.3s;}
+
+/* =========================================================
+   ABOUT
+========================================================= */
+.about{background:linear-gradient(180deg,var(--bg1) 0%,var(--bg2) 100%);}
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:72px;align-items:center;}
+.about-text p{color:var(--muted);font-size:15px;line-height:1.85;margin-bottom:16px;}
+.about-btns{display:flex;gap:12px;flex-wrap:wrap;margin-top:28px;}
+.about-img{border-radius:16px;overflow:hidden;aspect-ratio:4/5;box-shadow:var(--shadow-l);}
+.about-img img{width:100%;height:100%;object-fit:cover;transition:transform .7s var(--ease);}
+.about-img:hover img{transform:scale(1.04);}
+
+/* =========================================================
+   TEXT MARQUEE
+========================================================= */
+.marquee-section{
+  padding:36px 0;background:var(--bg2);
+  border-top:1px solid var(--border);border-bottom:1px solid var(--border);overflow:hidden;
+}
+.mq-track{display:flex;}
+.mq-run{display:flex;align-items:center;gap:52px;animation:mqLeft 32s linear infinite;flex-shrink:0;white-space:nowrap;padding-right:52px;}
+.mq-run2{display:flex;align-items:center;gap:52px;animation:mqLeft2 32s linear infinite;flex-shrink:0;white-space:nowrap;padding-right:52px;}
+.mq-word{font-family:'Playfair Display',serif;font-weight:900;font-size:clamp(36px,5vw,58px);color:rgba(255,255,255,.05);letter-spacing:.13em;text-transform:uppercase;user-select:none;}
+.mq-dot{color:rgba(184,15,26,.18);font-size:28px;flex-shrink:0;}
+.marquee-section:hover .mq-run,.marquee-section:hover .mq-run2{animation-play-state:paused;}
+
+/* =========================================================
+   GALLERY — strict equal grid
+========================================================= */
+.gallery{background:var(--bg1);}
+
+.gallery-grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  grid-auto-rows:240px;
+  gap:14px;
+  margin-top:48px;
+}
+/* Large span item */
+.gallery-grid .g-span2{grid-column:span 2;grid-row:span 2;}
+
+.g-item{
+  border-radius:var(--r);overflow:hidden;
+  position:relative;cursor:pointer;
+}
+.g-item img{
+  width:100%;height:100%;object-fit:cover;
+  transition:transform .5s var(--ease);
+  display:block;
+}
+.g-item:hover img{transform:scale(1.07);}
+.g-item::after{
+  content:'';position:absolute;inset:0;
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.06);
+  border-radius:var(--r);pointer-events:none;
+}
+
+/* =========================================================
+   SHOWCASE
+========================================================= */
+.showcase{display:grid;grid-template-columns:1fr 1fr;min-height:64vh;}
+.showcase-left{
+  display:flex;flex-direction:column;justify-content:center;
+  padding:80px 64px;
+  background:linear-gradient(135deg,var(--bg3) 0%,var(--bg2) 100%);
+}
+.showcase-left blockquote{
+  font-family:'Playfair Display',serif;font-weight:700;line-height:1.28;
+  font-size:clamp(24px,2.8vw,38px);color:#fff;margin:20px 0 24px;
+}
+.showcase-left blockquote em{font-style:italic;color:var(--red);}
+.showcase-left p{color:var(--muted);font-size:15px;line-height:1.82;max-width:400px;margin-bottom:34px;}
+.showcase-btns{display:flex;gap:12px;flex-wrap:wrap;}
+.showcase-right{position:relative;overflow:hidden;min-height:380px;}
+.showcase-right img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform 7s var(--ease);}
+.showcase-right:hover img{transform:scale(1.06);}
+.showcase-badge{
+  position:absolute;bottom:28px;right:28px;
+  background:rgba(10,10,10,.85);backdrop-filter:blur(12px);
+  border:1px solid rgba(255,255,255,.1);border-radius:14px;
+  padding:18px 22px;animation:floatBob 4s ease-in-out infinite;
+}
+.badge-icon{font-size:26px;margin-bottom:6px;}
+.badge-text{font-family:'Playfair Display',serif;font-style:italic;color:var(--cream);font-size:13px;line-height:1.5;}
+
+/* =========================================================
+   RESERVATION
+========================================================= */
+.reservation{background:linear-gradient(180deg,var(--bg1) 0%,var(--bg3) 100%);}
+.res-wrap{max-width:740px;margin:0 auto;}
+.res-header{text-align:center;margin-bottom:48px;}
+.res-header p{color:var(--muted);font-size:14px;margin-top:10px;}
+.res-card{
+  background:var(--bg2);border:1px solid var(--border);
+  border-radius:18px;padding:48px 44px;box-shadow:var(--shadow-l);
+}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;}
+.fg{display:flex;flex-direction:column;gap:7px;}
+.fg.full{grid-column:span 2;}
+.fg label{font-size:11px;font-weight:500;letter-spacing:.2em;text-transform:uppercase;color:rgba(240,235,228,.35);}
+.fg input,.fg select{
+  background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);
+  color:var(--cream);font-family:'Inter',sans-serif;font-size:14px;
+  padding:13px 16px;border-radius:var(--r);outline:none;
+  transition:border-color .25s,background .25s;-webkit-appearance:none;color-scheme:dark;
+}
+.fg input::placeholder{color:rgba(240,235,228,.2);}
+.fg input:focus,.fg select:focus{border-color:rgba(184,15,26,.55);background:rgba(255,255,255,.07);}
+.fg select option{background:#1c1c1c;color:var(--cream);}
+.btn-submit{
+  width:100%;display:flex;align-items:center;justify-content:center;gap:10px;
+  background:var(--red);color:#fff;font-family:'Inter',sans-serif;
+  font-size:15px;font-weight:500;padding:15px;border-radius:var(--r);
+  border:none;cursor:pointer;transition:all .25s var(--ease);
+}
+.btn-submit:hover{background:var(--red-h);transform:scale(1.02);}
+.btn-submit svg{width:20px;height:20px;fill:white;flex-shrink:0;}
+.form-note{font-size:11px;letter-spacing:.07em;color:rgba(240,235,228,.2);text-align:center;margin-top:10px;}
+.success-box{text-align:center;padding:56px 0;}
+.success-box .s-ico{font-size:56px;margin-bottom:14px;}
+.success-box h3{font-family:'Playfair Display',serif;font-size:26px;color:#fff;margin-bottom:8px;}
+.success-box p{color:var(--muted);font-size:14px;}
+
+/* =========================================================
+   CONTACT
+========================================================= */
+.contact{background:var(--bg2);}
+.contact-cards-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:20px;
+  margin-top:52px;
+}
+.c-card{
+  display:flex;flex-direction:column;align-items:flex-start;gap:16px;
+  background:var(--bg3);border:1px solid var(--border);
+  border-radius:16px;padding:32px 28px;box-shadow:var(--shadow);
+  transition:border-color .3s var(--ease), transform .3s var(--ease);
+  position:relative;overflow:hidden;
+}
+.c-card::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,transparent,var(--red),transparent);
+  opacity:0;transition:opacity .3s;
+}
+.c-card:hover{border-color:rgba(184,15,26,.4);transform:translateY(-4px);}
+.c-card:hover::before{opacity:1;}
+.c-icon{
+  width:48px;height:48px;flex-shrink:0;
+  background:rgba(184,15,26,.13);border-radius:12px;
+  display:flex;align-items:center;justify-content:center;color:var(--red);
+}
+.c-icon svg{width:22px;height:22px;stroke:currentColor;fill:none;}
+.c-label{font-size:10px;font-weight:600;letter-spacing:.25em;text-transform:uppercase;color:var(--red);margin-bottom:4px;}
+.c-val{color:var(--cream);font-size:15px;line-height:1.7;}
+.c-val a{color:var(--cream);transition:color .2s;}
+.c-val a:hover{color:var(--red);}
+.c-val-small{font-size:13px;color:var(--muted);margin-top:4px;line-height:1.6;}
+.contact-wa-row{margin-top:28px;}
+.btn-wa-full{
+  display:flex;align-items:center;justify-content:center;gap:9px;
+  background:#25D366;color:#fff;font-size:14px;font-weight:500;
+  padding:16px;border-radius:var(--r);transition:all .25s var(--ease);
+  max-width:380px;margin:0 auto;
+}
+.btn-wa-full:hover{background:#1ebe5d;transform:scale(1.02);}
+.btn-wa-full svg{width:19px;height:19px;fill:#fff;}
+@media(max-width:768px){
+  .contact-cards-grid{grid-template-columns:1fr;}
+  .btn-wa-full{max-width:100%;}
+}
+@media(max-width:1100px){
+  .contact-cards-grid{grid-template-columns:1fr 1fr;}
+}
+
+/* =========================================================
+   IMAGE STRIP
+========================================================= */
+.img-strip{padding:44px 0;background:var(--bg3);overflow:hidden;}
+.is-track{display:flex;gap:12px;}
+.is-run {display:flex;gap:12px;animation:mqLeft  40s linear infinite;flex-shrink:0;}
+.is-run2{display:flex;gap:12px;animation:mqLeft2 40s linear infinite;flex-shrink:0;}
+.is-item{width:264px;height:172px;border-radius:var(--r);overflow:hidden;flex-shrink:0;}
+.is-item img{width:100%;height:100%;object-fit:cover;filter:grayscale(1);transition:filter .5s,transform .5s;}
+.is-item:hover img{filter:grayscale(0);transform:scale(1.06);}
+.img-strip:hover .is-run,.img-strip:hover .is-run2{animation-play-state:paused;}
+
+/* =========================================================
+   FOOTER
+========================================================= */
+footer{background:var(--bg0);border-top:1px solid var(--border);padding:56px 32px 28px;}
+.footer-inner{max-width:1240px;margin:0 auto;display:flex;flex-direction:column;align-items:center;gap:28px;}
+.footer-logo{display:flex;flex-direction:column;align-items:center;line-height:1;user-select:none;}
+.footer-logo .ft{font-family:'Playfair Display',serif;font-weight:900;font-size:24px;color:#fff;letter-spacing:.06em;}
+.footer-logo .fb{font-family:'Playfair Display',serif;font-weight:700;font-size:12px;color:var(--red);letter-spacing:.3em;text-transform:uppercase;margin-top:2px;}
+.footer-desc{color:rgba(240,235,228,.3);font-size:13px;text-align:center;max-width:380px;line-height:1.75;}
+.footer-nav{display:flex;gap:22px;flex-wrap:wrap;justify-content:center;}
+.footer-nav a{color:rgba(240,235,228,.38);font-size:13px;cursor:pointer;transition:color .2s;}
+.footer-nav a:hover{color:var(--cream);}
+.footer-socials{display:flex;gap:10px;}
+.soc{width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,.05);display:flex;align-items:center;justify-content:center;color:rgba(240,235,228,.36);transition:all .2s var(--ease);}
+.soc:hover{background:rgba(184,15,26,.22);color:var(--red);}
+.soc svg{width:15px;height:15px;fill:currentColor;}
+.footer-divider{width:100%;height:1px;background:var(--border);}
+.footer-copy{font-size:11px;letter-spacing:.07em;color:rgba(240,235,228,.18);text-align:center;}
+.footer-copy .pow{color:rgba(184,15,26,.55);}
+
+/* =========================================================
+   FLOATING WA
+========================================================= */
+.fwa-wrap{position:fixed;bottom:24px;right:24px;z-index:999;display:flex;align-items:center;gap:10px;}
+.fwa-tip{
+  background:var(--bg2);border:1px solid var(--border);color:var(--cream);
+  font-size:13px;padding:7px 15px;border-radius:100px;white-space:nowrap;
+  opacity:0;transform:translateX(8px);transition:all .25s var(--ease);pointer-events:none;
+}
+.fwa-wrap:hover .fwa-tip{opacity:1;transform:translateX(0);}
+#fwaBtn{
+  width:54px;height:54px;background:#25D366;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:0 6px 28px rgba(37,211,102,.38);
+  opacity:0;transform:scale(0);
+  transition:opacity .45s,transform .45s cubic-bezier(.175,.885,.32,1.275);
+  animation:floatBob 3s ease-in-out infinite;
+}
+#fwaBtn.show{opacity:1;transform:scale(1);}
+#fwaBtn:hover{background:#1ebe5d;transform:scale(1.12)!important;}
+#fwaBtn svg{width:27px;height:27px;fill:#fff;}
+
+/* =========================================================
+   KEYFRAMES
+========================================================= */
+@keyframes heroUp{from{opacity:0;transform:translateY(48px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes cueAnim{0%,100%{opacity:.3;transform:scaleY(1)}50%{opacity:1;transform:scaleY(.7)}}
+@keyframes floatBob{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}
+@keyframes mqLeft {from{transform:translateX(0)}   to{transform:translateX(-100%)}}
+@keyframes mqLeft2{from{transform:translateX(100%)} to{transform:translateX(0)}}
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+@media(max-width:1100px){
+  .about-grid{grid-template-columns:1fr;gap:48px;}
+  .showcase{grid-template-columns:1fr;}
+  .showcase-left{padding:60px 40px;}
+  .contact-cards-grid{grid-template-columns:1fr 1fr;}
+  .gallery-grid{grid-template-columns:repeat(3,1fr);grid-auto-rows:200px;}
+  .gallery-grid .g-span2{grid-column:span 2;grid-row:span 1;}
+}
+@media(max-width:768px){
+  .topbar{padding:8px 16px;}
+  .topbar-right{display:none;}
+  .navbar{padding:0 16px;}
+  .nav-links,.nav-ctas{display:none;}
+  .hamburger{display:flex;}
+  .container{padding:0 20px;}
+  .section{padding:80px 0;}
+  .gallery-grid{grid-template-columns:1fr 1fr;grid-auto-rows:160px;}
+  .gallery-grid .g-span2{grid-column:span 2;grid-row:span 1;}
+  .form-grid{grid-template-columns:1fr;}
+  .fg.full{grid-column:span 1;}
+  .res-card{padding:28px 20px;}
+  .hero-btns{flex-direction:column;align-items:flex-start;gap:10px;}
+  .showcase-left{padding:48px 20px;}
+  footer{padding:48px 16px 24px;}
+  .contact-cards-grid{grid-template-columns:1fr;}
+  .btn-wa-full{width:100%;}
+}
+@media(max-width:480px){
+  .gallery-grid{grid-template-columns:1fr;grid-auto-rows:220px;}
+  .gallery-grid .g-span2{grid-column:span 1;}
+  .topbar-left{gap:12px;}
+  .tb-item{font-size:11px;}
+}
+  </style>
+</head>
+<body>
+
+<!-- LOADER -->
+<div id="loader">
+  <div class="loader-logo">AZERSOY <span>KEBAP</span></div>
+  <div class="loader-bar"><div class="loader-bar-inner"></div></div>
+</div>
+
+<!-- TOP BAR -->
+<div class="topbar">
+  <div class="topbar-left">
+    <div class="tb-item">
+      <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.7">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/>
+      </svg>
+      Sipariş Hattı:&nbsp;<a href="tel:05336500251">0533 650 02 51</a>&nbsp;/&nbsp;<a href="tel:02263525251">0226 352 52 51</a>
+    </div>
+    <div class="tb-item">
+      <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.7">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+      </svg>
+      10:00 – 21:00
+    </div>
+    <div class="tb-item">
+      <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.7">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+        <path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+      </svg>
+      Çiftlik, Başbuğ Alparslan Türkeş Cd No:43, Çiftlikköy / Yalova
+    </div>
+  </div>
+  <div class="topbar-right">Rezervasyon: 0533 650 02 51</div>
+</div>
+
+<!-- NAVBAR -->
+<nav class="navbar" id="navbar">
+  <div class="nav-logo" onclick="goTo('#hero')">
+    <span class="nav-logo-top">AZERSOY</span>
+    <span class="nav-logo-bot">Kebap</span>
+  </div>
+  <ul class="nav-links">
+    <li><a onclick="goTo('#hero')">Ana Sayfa</a></li>
+    <li><a onclick="goTo('#about')">Hakkımızda</a></li>
+    <li><a onclick="goTo('#gallery')">Galeri</a></li>
+    <li><a onclick="goTo('#reservation')">Rezervasyon</a></li>
+    <li><a onclick="goTo('#contact')">İletişim</a></li>
+  </ul>
+  <div class="nav-ctas">
+    <a href="tel:+902263525251" class="btn-outline-sm">
+      <svg viewBox="0 0 24 24"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg>
+      Hemen Ara
+    </a>
+    <a href="https://wa.me/905336500251?text=Merhaba%20rezervasyon%20yapmak%20istiyorum" target="_blank" class="btn-red-sm">
+      <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347zM12 0C5.373 0 0 5.373 0 12c0 2.122.554 4.111 1.52 5.845L0 24l6.323-1.495A11.934 11.934 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 01-4.964-1.344l-.356-.212-3.748.886.912-3.643-.233-.374A9.817 9.817 0 012.182 12C2.182 6.569 6.569 2.182 12 2.182S21.818 6.569 21.818 12 17.431 21.818 12 21.818z"/></svg>
+      WhatsApp
+    </a>
+  </div>
+  <div class="hamburger" id="hbg" onclick="toggleMob()">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<!-- MOBILE OVERLAY -->
+<div class="mobile-overlay" id="mobMenu">
+  <button class="mob-close" onclick="toggleMob()">✕</button>
+  <a onclick="goTo('#hero');toggleMob()">Ana Sayfa</a>
+  <a onclick="goTo('#about');toggleMob()">Hakkımızda</a>
+  <a onclick="goTo('#gallery');toggleMob()">Galeri</a>
+  <a onclick="goTo('#reservation');toggleMob()">Rezervasyon</a>
+  <a onclick="goTo('#contact');toggleMob()">İletişim</a>
+  <div class="mob-ctas">
+    <a href="tel:+902263525251" class="mob-btn mob-btn-call">📞 0226 352 52 51</a>
+    <a href="https://wa.me/905336500251?text=Merhaba%20rezervasyon%20yapmak%20istiyorum" target="_blank" class="mob-btn mob-btn-wa">💬 WhatsApp Sipariş</a>
+  </div>
+</div>
+
+<!-- HERO -->
+<section class="hero" id="hero">
+  <div class="hero-bg" id="heroBg">
+    <img src="images/rev7.jpg" alt="Azersoy Kebap" />
+  </div>
+  <div class="hero-content">
+    <h1 class="hero-title">
+      <span class="line1">AZERSOY</span>
+      <span class="line2">KEBAP</span>
+    </h1>
+    <p class="hero-sub">Lezzetin En Özel Hali</p>
+    <div class="hero-btns">
+      <a href="https://wa.me/905336500251?text=Merhaba%20rezervasyon%20yapmak%20istiyorum" target="_blank" class="btn-primary">
+        <svg width="16" height="16" fill="white" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347zM12 0C5.373 0 0 5.373 0 12c0 2.122.554 4.111 1.52 5.845L0 24l6.323-1.495A11.934 11.934 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 01-4.964-1.344l-.356-.212-3.748.886.912-3.643-.233-.374A9.817 9.817 0 012.182 12C2.182 6.569 6.569 2.182 12 2.182S21.818 6.569 21.818 12 17.431 21.818 12 21.818z"/></svg>
+        Rezervasyon Oluştur <span class="arr">→</span>
+      </a>
+      <a href="tel:+902263525251" class="btn-secondary">
+        <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg>
+        Hemen Ara
+      </a>
+    </div>
+  </div>
+  <div class="hero-cue">
+    <span>Keşfet</span>
+    <div class="hero-cue-line"></div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section class="about section" id="about">
+  <div class="container">
+    <div class="about-grid">
+      <div class="reveal-left">
+        <div class="sec-label"><div class="bar"></div><span>Hikayemiz</span></div>
+        <h2 class="sec-title" style="margin-bottom:20px">Gelenekten Gelen,<br><em>Lezzetle Büyüyen</em></h2>
+        <div class="about-text">
+          <p>Azersoy Kebap, Çiftlikköy Yalova'nın köklü mutfak geleneğini yaşatan, kaliteden ve özgünlükten taviz vermeyen bir gastronomi deneyimidir. Her tabağımız, yılların birikimiyle şekillenmiş geleneksel tariflerin ve seçkin yerel malzemelerin mükemmel uyumunu yansıtır.</p>
+          <p>Ustalarımız; Adana'dan Urfa'ya, ızgaradan lahmacuna uzanan zengin Türk mutfağı mirasını en yüksek standartlarda sofranıza taşır. Lezzet, kalite ve misafirperverlik — Azersoy Kebap'ın değişmez üç ilkesi.</p>
+        </div>
+        <div class="about-btns">
+          <a href="https://wa.me/905336500251?text=Merhaba%20rezervasyon%20yapmak%20istiyorum" target="_blank" class="btn-solid">
+            Rezervasyon Oluştur <span class="arr">→</span>
+          </a>
+          <a href="tel:+902263525251" class="btn-ghost">📞 Hemen Ara</a>
+        </div>
+      </div>
+      <div class="reveal-right">
+        <div class="about-img">
+          <img src="images/azersoy_kebap_1.jpg" alt="Azersoy Kebap — lezzet" />
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TEXT MARQUEE -->
+<div class="marquee-section">
+  <div class="mq-track">
+    <div class="mq-run">
+      <span class="mq-word">AZERSOY KEBAP</span><span class="mq-dot">◆</span>
+      <span class="mq-word">AZERSOY KEBAP</span><span class="mq-dot">◆</span>
+      <span class="mq-word">AZERSOY KEBAP</span><span class="mq-dot">◆</span>
+      <span class="mq-word">AZERSOY KEBAP</span><span class="mq-dot">◆</span>
+      <span class="mq-word">AZERSOY KEBAP</span><span class="mq-dot">◆</span>
+    </div>
+    <div class="mq-run2" aria-hidden="true">
+      <span class="mq-word">AZERSOY KEBAP</span><span class="mq-dot">◆</span>
+      <span class="mq-word">AZERSOY KEBAP</span><span class="mq-dot">◆</span>
+      <span class="mq-word">AZERSOY KEBAP</span><span class="mq-dot">◆</span>
+      <span class="mq-word">AZERSOY KEBAP</span><span class="mq-dot">◆</span>
+      <span class="mq-word">AZERSOY KEBAP</span><span class="mq-dot">◆</span>
+    </div>
+  </div>
+</div>
+
+<!-- GALLERY -->
+<section class="gallery section" id="gallery">
+  <div class="container">
+    <div class="reveal" style="text-align:center">
+      <div class="sec-label" style="justify-content:center">
+        <div class="bar"></div><span>Fotoğraf Galerisi</span><div class="bar"></div>
+      </div>
+      <h2 class="sec-title">Lezzetin <em>Her Hali</em></h2>
+    </div>
+    <div class="gallery-grid reveal">
+      <div class="g-item g-span2"><img src="images/resimrev1.jpg"          alt="Azersoy Sofra"  /></div>
+      <div class="g-item"><img src="images/rev6.jpg"                       alt="Adana Kebap"    /></div>
+      <div class="g-item"><img src="images/resimrev2.jpg"                  alt="Izgara"         /></div>
+      <div class="g-item"><img src="images/rev4.jpg"                       alt="Lahmacun"       /></div>
+      <div class="g-item"><img src="images/rev5.jpg"                       alt="Kebap"          /></div>
+      <div class="g-item"><img src="images/rev3.jpg"                       alt="Köfte"          /></div>
+      <div class="g-item"><img src="images/rev7.jpg"                       alt="Karışık Izgara" /></div>
+      <div class="g-item"><img src="images/azersoy_kebap_1.jpg"            alt="Tabak"          /></div>
+      <div class="g-item"><img src="images/azersoy_servis_1.jpg"           alt="Servis"         /></div>
+      <div class="g-item"><img src="images/azersoy_lahmacun_2.jpg"         alt="Lahmacun"       /></div>
+      <div class="g-item"><img src="images/azersoy_bahce_1.jpg"            alt="Bahçe"          /></div>
+      <div class="g-item"><img src="images/azersoy_ic_mekan_1.jpg"         alt="İç Mekan"       /></div>
+    </div>
+  </div>
+</section>
+
+<!-- SHOWCASE -->
+<div class="showcase">
+  <div class="showcase-left reveal-left">
+    <div class="sec-label"><div class="bar"></div><span>Kalitemiz</span></div>
+    <blockquote>"Azersoy Kebap,<br><em>lezzeti sofranıza</em><br>taşır."</blockquote>
+    <p>Özenle seçilmiş yerel malzemeler, nesilden nesile aktarılan geleneksel teknikler ve mangalın eşsiz ateşiyle buluşan lezzetler — Azersoy Kebap'ta her ziyaret, damak zevkinize yapılan kalıcı bir yatırımdır.</p>
+    <div class="showcase-btns">
+      <a href="https://wa.me/905336500251?text=Merhaba%20rezervasyon%20yapmak%20istiyorum" target="_blank" class="btn-solid">Rezervasyon <span class="arr">→</span></a>
+      <a href="tel:+902263525251" class="btn-ghost">📞 Ara</a>
+    </div>
+  </div>
+  <div class="showcase-right">
+    <img src="images/resimrev1.jpg" alt="Azersoy Servis" />
+    <div class="showcase-badge">
+      <div class="badge-icon">🍢</div>
+      <div class="badge-text">Günlük taze<br>malzeme</div>
+    </div>
+  </div>
+</div>
+
+<!-- RESERVATION -->
+<section class="reservation section" id="reservation">
+  <div class="container">
+    <div class="res-wrap">
+      <div class="res-header reveal">
+        <div class="sec-label" style="justify-content:center">
+          <div class="bar"></div><span>Rezervasyon</span><div class="bar"></div>
+        </div>
+        <h2 class="sec-title">Masanızı <em>Ayırtın</em></h2>
+        <p>Formu doldurun, WhatsApp üzerinden anında onaylayalım.</p>
+      </div>
+      <div class="res-card reveal delay-1" id="resCard">
+        <form class="form-grid" onsubmit="submitRes(event)">
+          <div class="fg"><label>Ad Soyad *</label><input type="text" id="rN" placeholder="Adınızı girin" required /></div>
+          <div class="fg"><label>Telefon *</label><input type="tel" id="rP" placeholder="05XX XXX XX XX" required /></div>
+          <div class="fg"><label>Tarih *</label><input type="date" id="rD" required /></div>
+          <div class="fg"><label>Saat *</label>
+            <select id="rT" required>
+              <option value="">Saat seçin</option>
+              <option>10:00</option><option>10:30</option><option>11:00</option><option>11:30</option>
+              <option>12:00</option><option>12:30</option><option>13:00</option><option>13:30</option>
+              <option>14:00</option><option>18:00</option><option>18:30</option><option>19:00</option>
+              <option>19:30</option><option>20:00</option><option>20:30</option><option>21:00</option>
+            </select>
+          </div>
+          <div class="fg full"><label>Kişi Sayısı *</label>
+            <select id="rK" required>
+              <option value="1">1 Kişi</option><option value="2" selected>2 Kişi</option>
+              <option value="3">3 Kişi</option><option value="4">4 Kişi</option>
+              <option value="5">5 Kişi</option><option value="6">6 Kişi</option>
+              <option value="7">7 Kişi</option><option value="8">8 Kişi</option>
+              <option value="10+">10+ Kişi</option>
+            </select>
+          </div>
+          <div class="fg full">
+            <button type="submit" class="btn-submit">
+              <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347zM12 0C5.373 0 0 5.373 0 12c0 2.122.554 4.111 1.52 5.845L0 24l6.323-1.495A11.934 11.934 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 01-4.964-1.344l-.356-.212-3.748.886.912-3.643-.233-.374A9.817 9.817 0 012.182 12C2.182 6.569 6.569 2.182 12 2.182S21.818 6.569 21.818 12 17.431 21.818 12 21.818z"/></svg>
+              WhatsApp ile Rezervasyon Yap
+            </button>
+            <p class="form-note">WhatsApp uygulamanız açılacak — mesajı göndererek onaylayın.</p>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="contact section" id="contact">
+  <div class="container">
+    <div class="reveal" style="text-align:center">
+      <div class="sec-label" style="justify-content:center">
+        <div class="bar"></div><span>İletişim</span><div class="bar"></div>
+      </div>
+      <h2 class="sec-title">Bize <em>Ulaşın</em></h2>
+    </div>
+
+    <div class="contact-cards-grid">
+      <div class="c-card reveal delay-1">
+        <div class="c-icon"><svg viewBox="0 0 24 24" stroke-width="1.7"><path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg></div>
+        <div>
+          <div class="c-label">Adres</div>
+          <div class="c-val">Çiftlik, Başbuğ Alparslan<br>Türkeş Cd No:43<br>Çiftlikköy, Yalova</div>
+        </div>
+      </div>
+
+      <div class="c-card reveal delay-2">
+        <div class="c-icon"><svg viewBox="0 0 24 24" stroke-width="1.7"><path stroke-linecap="round" stroke-linejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg></div>
+        <div>
+          <div class="c-label">Telefon</div>
+          <div class="c-val"><a href="tel:02263525251">0226 352 52 51</a></div>
+          <div class="c-val-small"><a href="tel:05336500251">0533 650 02 51</a> &nbsp;·&nbsp; WhatsApp</div>
+        </div>
+      </div>
+
+      <div class="c-card reveal delay-3">
+        <div class="c-icon"><svg viewBox="0 0 24 24" stroke-width="1.7"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg></div>
+        <div>
+          <div class="c-label">Çalışma Saatleri</div>
+          <div class="c-val">Her gün açık</div>
+          <div class="c-val-small">10:00 – 21:00</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="contact-wa-row reveal">
+      <a href="https://wa.me/905336500251?text=Merhaba%20Azersoy%20Kebap!" target="_blank" class="btn-wa-full">
+        <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347zM12 0C5.373 0 0 5.373 0 12c0 2.122.554 4.111 1.52 5.845L0 24l6.323-1.495A11.934 11.934 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 01-4.964-1.344l-.356-.212-3.748.886.912-3.643-.233-.374A9.817 9.817 0 012.182 12C2.182 6.569 6.569 2.182 12 2.182S21.818 6.569 21.818 12 17.431 21.818 12 21.818z"/></svg>
+        WhatsApp'tan Mesaj Gönder
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- IMAGE STRIP -->
+<div class="img-strip">
+  <div class="is-track">
+    <div class="is-run">
+      <div class="is-item"><img src="images/resimrev1.jpg"          alt="" /></div>
+      <div class="is-item"><img src="images/rev6.jpg"               alt="" /></div>
+      <div class="is-item"><img src="images/resimrev2.jpg"          alt="" /></div>
+      <div class="is-item"><img src="images/rev4.jpg"               alt="" /></div>
+      <div class="is-item"><img src="images/rev5.jpg"               alt="" /></div>
+      <div class="is-item"><img src="images/rev3.jpg"               alt="" /></div>
+      <div class="is-item"><img src="images/rev7.jpg"               alt="" /></div>
+      <div class="is-item"><img src="images/azersoy_kebap_1.jpg"    alt="" /></div>
+      <div class="is-item"><img src="images/azersoy_servis_1.jpg"   alt="" /></div>
+      <div class="is-item"><img src="images/azersoy_lahmacun_2.jpg" alt="" /></div>
+    </div>
+    <div class="is-run2" aria-hidden="true">
+      <div class="is-item"><img src="images/resimrev1.jpg"          alt="" /></div>
+      <div class="is-item"><img src="images/rev6.jpg"               alt="" /></div>
+      <div class="is-item"><img src="images/resimrev2.jpg"          alt="" /></div>
+      <div class="is-item"><img src="images/rev4.jpg"               alt="" /></div>
+      <div class="is-item"><img src="images/rev5.jpg"               alt="" /></div>
+      <div class="is-item"><img src="images/rev3.jpg"               alt="" /></div>
+      <div class="is-item"><img src="images/rev7.jpg"               alt="" /></div>
+      <div class="is-item"><img src="images/azersoy_kebap_1.jpg"    alt="" /></div>
+      <div class="is-item"><img src="images/azersoy_servis_1.jpg"   alt="" /></div>
+      <div class="is-item"><img src="images/azersoy_lahmacun_2.jpg" alt="" /></div>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-logo">
+      <span class="ft">AZERSOY</span>
+      <span class="fb">Kebap</span>
+    </div>
+    <p class="footer-desc">Çiftlikköy Yalova'nın köklü mutfak geleneğini yaşatan, kaliteden taviz vermeyen bir gastronomi deneyimi.</p>
+    <nav class="footer-nav">
+      <a onclick="goTo('#hero')">Ana Sayfa</a>
+      <a onclick="goTo('#about')">Hakkımızda</a>
+      <a onclick="goTo('#gallery')">Galeri</a>
+      <a onclick="goTo('#reservation')">Rezervasyon</a>
+      <a onclick="goTo('#contact')">İletişim</a>
+    </nav>
+    <div class="footer-socials">
+      <a href="https://wa.me/905336500251" target="_blank" class="soc" title="WhatsApp">
+        <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347zM12 0C5.373 0 0 5.373 0 12c0 2.122.554 4.111 1.52 5.845L0 24l6.323-1.495A11.934 11.934 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 01-4.964-1.344l-.356-.212-3.748.886.912-3.643-.233-.374A9.817 9.817 0 012.182 12C2.182 6.569 6.569 2.182 12 2.182S21.818 6.569 21.818 12 17.431 21.818 12 21.818z"/></svg>
+      </a>
+      <a href="#" class="soc" title="Instagram">
+        <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+      </a>
+    </div>
+    <div class="footer-divider"></div>
+    <p class="footer-copy">© 2025 Azersoy Kebap · Tüm hakları saklıdır · Powered by <span class="pow">Aksoy Creative</span></p>
+  </div>
+</footer>
+
+<!-- FLOATING WA -->
+<div class="fwa-wrap">
+  <div class="fwa-tip">Sipariş için WhatsApp 🍢</div>
+  <a href="https://wa.me/905336500251?text=Merhaba%20Azersoy%20Kebap!" target="_blank" id="fwaBtn" title="WhatsApp">
+    <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347zM12 0C5.373 0 0 5.373 0 12c0 2.122.554 4.111 1.52 5.845L0 24l6.323-1.495A11.934 11.934 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 01-4.964-1.344l-.356-.212-3.748.886.912-3.643-.233-.374A9.817 9.817 0 012.182 12C2.182 6.569 6.569 2.182 12 2.182S21.818 6.569 21.818 12 17.431 21.818 12 21.818z"/></svg>
+  </a>
+</div>
+
+<!-- JAVASCRIPT -->
+<script>
+/* ---- Loader ---- */
+window.addEventListener('load', () => {
+  setTimeout(() => {
+    document.getElementById('loader').classList.add('hide');
+    document.getElementById('heroBg').classList.add('loaded');
+  }, 1900);
+});
+
+/* ---- Smooth scroll ---- */
+function goTo(id) {
+  const el = document.querySelector(id);
+  if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+/* ---- Navbar shadow ---- */
+const navbar = document.getElementById('navbar');
+window.addEventListener('scroll', () => {
+  navbar.classList.toggle('shadow', window.scrollY > 40);
+}, { passive: true });
+
+/* ---- Mobile menu ---- */
+function toggleMob() {
+  const menu = document.getElementById('mobMenu');
+  const hbg  = document.getElementById('hbg');
+  menu.classList.toggle('open');
+  hbg.classList.toggle('open');
+  document.body.style.overflow = menu.classList.contains('open') ? 'hidden' : '';
+}
+
+/* ---- Min date ---- */
+const rD = document.getElementById('rD');
+if (rD) rD.min = new Date().toISOString().split('T')[0];
+
+/* ---- Reservation → WhatsApp ---- */
+function submitRes(e) {
+  e.preventDefault();
+  const n = document.getElementById('rN').value.trim();
+  const p = document.getElementById('rP').value.trim();
+  const d = document.getElementById('rD').value;
+  const t = document.getElementById('rT').value;
+  const k = document.getElementById('rK').value;
+  const msg =
+    `Merhaba Azersoy Kebap, rezervasyon yapmak istiyorum.%0A%0A` +
+    `👤 Ad Soyad: ${encodeURIComponent(n)}%0A` +
+    `📞 Telefon: ${encodeURIComponent(p)}%0A` +
+    `📅 Tarih: ${d}%0A` +
+    `⏰ Saat: ${t}%0A` +
+    `👥 Kişi: ${k}`;
+  window.open(`https://wa.me/905336500251?text=${msg}`, '_blank');
+  document.getElementById('resCard').innerHTML = `
+    <div class="success-box">
+      <div class="s-ico">✅</div>
+      <h3>Teşekkürler!</h3>
+      <p>Rezervasyon bilgileriniz WhatsApp'a aktarıldı.<br>Mesajı göndererek onaylayın.</p>
+    </div>`;
+}
+
+/* ---- Floating WA ---- */
+setTimeout(() => {
+  const b = document.getElementById('fwaBtn');
+  if (b) b.classList.add('show');
+}, 2000);
+
+/* ---- Scroll reveal (IntersectionObserver) ---- */
+const allReveal = document.querySelectorAll('.reveal, .reveal-left, .reveal-right');
+const obs = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('in');
+      obs.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.1 });
+allReveal.forEach(el => obs.observe(el));
+</script>
+</body>
+</html>
